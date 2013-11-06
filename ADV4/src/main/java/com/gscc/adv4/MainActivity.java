@@ -13,7 +13,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -27,8 +26,10 @@ public class MainActivity extends Activity {
     int i;
     Thread countToloop;
     private Button btnT1, btnT2;
+    private UpdateManager mUpdateUpdate;
     //@@@@@全區宣告end
 
+    //@@@@@接收Message，當接到特定Message時，執行特定動作
     public Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -57,22 +58,31 @@ public class MainActivity extends Activity {
             }
         }
     };
+    //@@@@@
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //全畫面~~~~~~~~~~~~~~~~~~~~
+        //@@@@@全畫面
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        //@@@@@
+
+        //@@@@@檢查是否需要更新
+        mUpdateUpdate = new UpdateManager(this);
+        mUpdateUpdate.checkUpdateInfo();
+        //@@@@@
 
         btnT1 = (Button) findViewById(R.id.btn_test1);
         btnT2 = (Button) findViewById(R.id.btn_test2);
 
-        MediaController mediaController = new MediaController(this);
-        mediaController.setAnchorView(vv);
+        //@@@@@開啟撥放器控制項
+        //MediaController mediaController = new MediaController(this);
+        //mediaController.setAnchorView(vv);
+        //@@@@@
 
         tx2 = (TextView) findViewById((R.id.textView2));
 
@@ -81,6 +91,10 @@ public class MainActivity extends Activity {
 
     }
 
+
+    //@@@@@
+
+    //@@@@@測試按鈕的功能
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void BtnT1onClick(View view) {
         //VideoPlayer();
@@ -92,6 +106,7 @@ public class MainActivity extends Activity {
         //VideoPlayer2();
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
     }
+    //@@@@@
 
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -101,7 +116,7 @@ public class MainActivity extends Activity {
         //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         Uri video1 = Uri.parse("sdcard/test.m4v");
         vv = (VideoView) findViewById(R.id.videoView1);
-        tx1=(TextView)findViewById(R.id.textView);
+        tx1 = (TextView) findViewById(R.id.textView);
         tx1.setText("Video1");
         tx1.setSelected(true);
         vv.setVideoURI(video1);
@@ -115,7 +130,7 @@ public class MainActivity extends Activity {
         //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         Uri video1 = Uri.parse("sdcard/test2.mp4");
         vv = (VideoView) findViewById(R.id.videoView1);
-        tx1=(TextView)findViewById(R.id.textView);
+        tx1 = (TextView) findViewById(R.id.textView);
         tx1.setText("Video2");
         vv.setVideoURI(video1);
         vv.start();
@@ -128,7 +143,7 @@ public class MainActivity extends Activity {
         //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         Uri video1 = Uri.parse("sdcard/test3.mp4");
         vv = (VideoView) findViewById(R.id.videoView1);
-        tx1=(TextView)findViewById(R.id.textView);
+        tx1 = (TextView) findViewById(R.id.textView);
         tx1.setText("Video3");
         vv.setVideoURI(video1);
         vv.start();
@@ -141,7 +156,7 @@ public class MainActivity extends Activity {
         //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         Uri video1 = Uri.parse("sdcard/test4.mp4");
         vv = (VideoView) findViewById(R.id.videoView1);
-        tx1=(TextView)findViewById(R.id.textView);
+        tx1 = (TextView) findViewById(R.id.textView);
         tx1.setText("Video4");
         vv.setVideoURI(video1);
         vv.start();
@@ -154,7 +169,7 @@ public class MainActivity extends Activity {
         //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         Uri video1 = Uri.parse("sdcard/test5.mp4");
         vv = (VideoView) findViewById(R.id.videoView1);
-        tx1=(TextView)findViewById(R.id.textView);
+        tx1 = (TextView) findViewById(R.id.textView);
         tx1.setText("Video5");
         vv.setVideoURI(video1);
         vv.start();
