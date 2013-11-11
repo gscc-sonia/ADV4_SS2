@@ -11,5 +11,23 @@
         android:layout_height="fill_parent"
         android:id="@+id/imageView" />
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true">
+
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="50">
+            </TableRow>
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="50">
+        </TableRow>
+    </LinearLayout>
+
 
 </RelativeLayout>

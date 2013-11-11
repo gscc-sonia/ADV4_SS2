@@ -2,17 +2,12 @@ package com.gscc.adv4;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -21,16 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.Buffer;
-
+import com.gscc.adv4.UpdateManager;
 
 public class MainActivity extends Activity {
     //@@@@@@全區宣告start
@@ -40,9 +26,10 @@ public class MainActivity extends Activity {
     int i;//計時器用count
     Thread countToloop;
     private Button btnT1, btnT2;//測試按鈕
-    private UpdateManager mUpdateUpdate;
-    String newVerName = "";//新版本名稱
-    int newVerCode = -1;//新版本號
+    //private UpdateManager mUpdateUpdate;
+    //String newVerName = "";//新版本名稱
+    //int newVerCode = -1;//新版本號
+    private UpdateManager mUpdateManager;
     //@@@@@全區宣告end
 
     //@@@@@接收Message，當接到特定Message時，執行特定動作
@@ -86,9 +73,11 @@ public class MainActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         //@@@@@
-        //notNewVersionUpdate();
+
         //@@@@@檢查是否需要更新
-        if(getServerVer()){
+        mUpdateManager = new UpdateManager(this);
+        mUpdateManager.checkUpdate();
+       /*if(getServerVer()){
             int verCode = this.getVerCode(this);
             if(newVerCode>verCode){
                 mUpdateUpdate = new UpdateManager(this);
@@ -96,7 +85,8 @@ public class MainActivity extends Activity {
             }else{
 
             }
-        }
+        }*/
+
         //@@@@@
 
         btnT1 = (Button) findViewById(R.id.btn_test1);
@@ -114,64 +104,7 @@ public class MainActivity extends Activity {
 
     }
 
-    //@@@@@不更新版本
-    public void notNewVersionUpdate() {
-        int verCode = this.getVerCode(this);
-        //String verName = this.getVerName(this);
-        StringBuffer sb = new StringBuffer();
-        //sb.append("目前版本:");
-        //sb.append(verName);
-        sb.append("Code:");
-        sb.append(verCode);
-        sb.append("\n已是最新版本，無需更新");
-        Dialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Apk更新")
-                .setMessage(sb.toString())
-                .setPositiveButton("確定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                }).create();
-        dialog.show();
-    }
-    //@@@@@
 
-    //@@@@@或得版本號
-    public int getVerCode(Context context){
-        int verCode = -1;
-        try{
-            verCode = context.getPackageManager().getPackageInfo("com.gscc.adv4",0).versionCode;
-        }catch (PackageManager.NameNotFoundException e){
-            Log.e("版本號獲取異常", e.getMessage());
-        }
-        return verCode;
-    }
-    //@@@@@
-
-    //@@@@@從伺服器端獲得版本號與版本名稱
-    public boolean getServerVer() {
-        try {
-            URL url = new URL("http://apkupdate.gscc.net.tw/ADV4/ADV4_SS2.apk");
-            HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
-            httpConnection.setDoInput(true);
-            httpConnection.setDoOutput(true);
-            httpConnection.setRequestMethod("GET");
-            httpConnection.connect();
-            InputStreamReader reader = new InputStreamReader(httpConnection.getInputStream());
-            BufferedReader bReader = new BufferedReader(reader);
-            String json = bReader.readLine();
-            JSONArray array = new JSONArray(json);
-            JSONObject jsonObject = array.getJSONObject(0);
-            newVerCode = Integer.parseInt(jsonObject.getString("verCode"));
-            newVerName = jsonObject.getString("verName");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-    //@@@@@
 
     //@@@@@測試按鈕的功能
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

@@ -30,7 +30,10 @@
                 android:text="Large Text"
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textSize="44sp"
+                android:textStyle="normal"
+                android:textIsSelectable="false" />
         </TableLayout>
 
         <TableLayout
@@ -55,44 +58,54 @@
             android:layout_weight="2.5">
 
             <!--第二文字區-->
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="90"
                     android:gravity="center_horizontal"
                     android:paddingTop="10dp"
-                    android:text="Large Text"
+                    android:text="@string/b1"
+                    android:textAlignment="center"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#000000" />
 
-
-            </TableRow>
-
-            <TableRow
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="0dp"
+                android:layout_weight="10"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="隱藏測試"
-                    android:id="@+id/btn_test2"
-                    android:layout_column="17"
-                    android:onClick="BtnT2onClick" />
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="50">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="恢復測試"
-                    android:id="@+id/btn_test1"
-                    android:layout_column="18"
-                    android:onClick="BtnT1onClick" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btn_test2"
+                        android:onClick="BtnT2onClick"
+                        android:textColor="#00000000" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="50"
+                    android:gravity="right">
 
-            </TableRow>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btn_test1"
+                        android:onClick="BtnT1onClick"
+                        android:textColor="#00000000" />
+                </TableRow>
+            </LinearLayout>
+
+
         </TableLayout>
 
         <TableLayout
